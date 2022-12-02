@@ -11,11 +11,16 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "course_table", foreignKeys = @ForeignKey(entity=Category.class, parentColumns="id", childColumns="category_id",onDelete = CASCADE))
+import java.util.Objects;
+
+
+@Entity(tableName = "course_table", foreignKeys = @ForeignKey(entity = Category.class,
+        parentColumns = "id",childColumns = "category_id", onDelete = CASCADE))
+
 public class Course extends BaseObservable {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name="course_id")
+    @ColumnInfo(name = "course_id")
     private int courseId;
 
     @ColumnInfo(name = "course_name")
@@ -25,18 +30,20 @@ public class Course extends BaseObservable {
     private String unitPrice;
 
     @ColumnInfo(name = "category_id")
-    private String categoryId;
+    private int categoryId;
+
 
     @Ignore
     public Course() {
     }
 
-    public Course(int courseId, String courseName, String unitPrice, String categoryId) {
+    public Course(int courseId, String courseName, String unitPrice, int categoryId) {
         this.courseId = courseId;
         this.courseName = courseName;
         this.unitPrice = unitPrice;
         this.categoryId = categoryId;
     }
+
 
     @Bindable
     public int getCourseId() {
@@ -46,6 +53,7 @@ public class Course extends BaseObservable {
     public void setCourseId(int courseId) {
         this.courseId = courseId;
         notifyPropertyChanged(BR.courseId);
+
     }
 
     @Bindable
@@ -69,13 +77,29 @@ public class Course extends BaseObservable {
     }
 
     @Bindable
-    public String getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(String categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
         notifyPropertyChanged(BR.categoryId);
+    }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return  courseId == course.courseId
+                && categoryId == course.categoryId
+                && courseName.equals(course.courseName)
+                && unitPrice.equals(course.unitPrice);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(courseId, courseName, unitPrice, categoryId);
     }
 }

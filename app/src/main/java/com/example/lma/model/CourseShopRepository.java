@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
 
 public class CourseShopRepository {
 
-    private CategoryDAO categortDAO;
+    private CategoryDAO categoryDAO;
     private CourseDAO courseDAO;
 
     private LiveData<List<Category>> categories;
@@ -20,71 +20,76 @@ public class CourseShopRepository {
 
     public CourseShopRepository(Application application) {
         CourseDatabase courseDatabase = CourseDatabase.getInstance(application);
-        categortDAO = courseDatabase.categoryDAO();
-        courseDAO = courseDatabase.courseDAO();
+        categoryDAO = courseDatabase.categoryDAO();
+        courseDAO   = courseDatabase.courseDAO();
     }
 
     public LiveData<List<Category>> getCategories() {
-        return categortDAO.getAllCategories();
+        return categoryDAO.getAllCategories();
     }
 
     public LiveData<List<Course>> getCourses(int categoryId) {
         return courseDAO.getCourses(categoryId);
     }
 
-    public void insertCategory(Category category){
 
-
+    private void insertCategory(Category category){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                //inserting categories
-                categortDAO.insert(category);
+
+                // Inserting Categories
+                categoryDAO.insert(category);
             }
         });
 
     }
 
     public void insertCourse(Course course){
-
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
-
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                //inserting categories
+
+                // Inserting Categories
                 courseDAO.insert(course);
+
+                // Do after background execution is done - post execution
             }
         });
+
     }
 
     public void deleteCategory(Category category){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
-
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                //inserting categories
-                categortDAO.delete(category);
+
+                // Inserting Categories
+                categoryDAO.delete(category);
+
+                // Do after background execution is done - post execution
             }
         });
     }
 
     public void deleteCourse(Course course){
-
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
-
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                //inserting categories
+
+                // Inserting Categories
                 courseDAO.delete(course);
+
+                // Do after background execution is done - post execution
             }
         });
     }
@@ -96,27 +101,28 @@ public class CourseShopRepository {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                //inserting categories
-                categortDAO.update(category);
+
+                // Inserting Categories
+                categoryDAO.update(category);
+
+                // Do after background execution is done - post execution
             }
         });
     }
 
     public void updateCourse(Course course){
-
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                //inserting categories
+
+                // Inserting Categories
                 courseDAO.update(course);
+
+                // Do after background execution is done - post execution
             }
         });
     }
-
-
-
-
 }

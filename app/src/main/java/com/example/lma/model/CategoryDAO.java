@@ -12,6 +12,7 @@ import java.util.List;
 @Dao
 public interface CategoryDAO {
 
+
     @Insert
     void insert(Category category);
 
@@ -22,5 +23,5 @@ public interface CategoryDAO {
     void delete(Category category);
 
     @Query("SELECT * FROM categories_table")
-    LiveData<List<Category>>getAllCategories();
+    LiveData<List<Category>> getAllCategories();
 }
