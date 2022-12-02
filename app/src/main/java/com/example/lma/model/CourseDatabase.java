@@ -8,7 +8,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Category.class, Course.class}, Version = 1)
+@Database(entities = {Category.class, Course.class}, version = 1)
 public abstract class CourseDatabase extends RoomDatabase {
 
     public abstract CategoryDAO categoryDAO();
@@ -20,7 +20,11 @@ public abstract class CourseDatabase extends RoomDatabase {
 
     public static synchronized CourseDatabase getInstance(Context context){
         if(instance == null){
-            instance = Room.databaseBuilder(context.getApplicationContext(), CourseDatabase.class, "courses_database").fallbackToDestructiveMigration().addCallback(roomCallback).build();
+            instance = Room.databaseBuilder(context.getApplicationContext(),
+                    CourseDatabase.class, "courses_database")
+                    .fallbackToDestructiveMigration()
+                    .addCallback(roomCallback)
+                    .build();
         }
 
         return instance;
